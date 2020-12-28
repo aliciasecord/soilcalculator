@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Soil Calculator</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque&display=swap" rel="stylesheet">
+  <style>
+      body {
+        font-family: 'Darker Grotesque', sans-serif;
+      }
+
+      .list li {
+        list-style-type: none;
+        display: inline-block;
+        width: 100px;
+      }
+
+      .list li input {
+        width: 50px;
+      }
+
+      .hiddenDiv {
+        display: none;
+      }
+  </style>
+</head>
+<body>
+  <div id="selector">
+    <select name="dropdown" id="dropdown">
+      <option value="selectShape">Select Shape</option>
+      <option value="rectangle" id="rectangle">Rectangle</option>
+      <option value="round" id="round">Round</option>
+    </select>
+  </div>
+  <div id="selectRectangle" class="hiddenDiv">
+    <ul class="list">
+      <li>Length<br>(in feet):<br><input type="number" id="lengthRect"></input></li>
+      <li>Width<br>(in feet):<br><input type="number" id="widthRect"></input></li>
+      <li>Depth<br>(in inches):<br><input type="number" id="depthRect"></input></li>
+    </ul>
+    <button id="calculateRectangle">Calculate</button>
+  </div>
+  <div id="selectRound" class="hiddenDiv">
+    <ul class="list">
+      <li>Width<br>(in feet):<br><input type="number" id='widthRound'></input></li>
+      <li>Depth<br>(in inches):<br><input type="number" id='depthRound'></input></li>
+    </ul>
+    <button id="calculateRound">Calculate</button>
+  </div>
+  <div id="output" class="hiddenDiv">
+    <ul class='list'>
+      <li>Area:<br><span id='area'></span> sq. feet</li>
+      <li>Perimeter:<br><span id='perimeter'></span> feet</li>
+      <li>Volume:<br><span id='volume'></span> cu. yards</li>
+    </ul>
+  </div>
+</body>
+
+<script>
+  const dropdown = document.getElementById('dropdown');
+const rectangle = document.getElementById('selectRectangle');
+const round = document.getElementById('selectRound');
+
+dropdown.addEventListener('change', function () {
+    if(dropdown.value == "selectShape"){
+      rectangle.classList.add('hiddenDiv')
+      round.classList.add('hiddenDiv')
+    }
+    else if(dropdown.value == "rectangle"){
+      rectangle.classList.remove('hiddenDiv')
+      round.classList.add('hiddenDiv')
+    }
+    else {
+      rectangle.classList.add('hiddenDiv')
+      round.classList.remove('hiddenDiv')
+    }
+});
+
+const calculateRectangle = document.getElementById('calculateRectangle')
+const lengthRect = document.getElementById('lengthRect');
+const widthRect = document.getElementById('widthRect');
+const depthRect = document.getElementById('depthRect')
+const area = document.getElementById('area');
+const perimeter = document.getElementById('perimeter');
+const volume = document.getElementById('volume');
+const output = document.getElementById('output');
+calculateRectangle.addEventListener('click', function() {
+    output.classList.remove('hiddenDiv');
+    let areaCalc = (lengthRect.value * widthRect.value)
+    let perimeterCalc = ((lengthRect.value + widthRect.value) * 2)
+    let volumeCalc = (lengthRect.value * widthRect.value * (depthRect.value/12)) / 27
+    area.innerHTML = areaCalc;
+    perimeter.innerHTML = perimeterCalc;
+    volume.innerHTML = volumeCalc.toFixed(2);
+});
+
+const calculateRound = document.getElementById('calculateRound')
+const widthRound = document.getElementById('widthRound');
+const depthRound = document.getElementById('depthRound')
+
+
+calculateRound.addEventListener('click', function() {
+    output.classList.remove('hiddenDiv');
+    let areaCalc = (((widthRound.value / 2) ** 2) * Math.PI)
+    let perimeterCalc = (widthRound.value * Math.PI)
+    let volumeCalc = (((widthRound.value / 2) ** 2) * Math.PI * (depthRound.value/12)) / 27
+    area.innerHTML = areaCalc.toFixed(2);
+    perimeter.innerHTML = perimeterCalc.toFixed(2);
+    volume.innerHTML = volumeCalc.toFixed(2);
+});
+  
+</script>
+
+</html>
